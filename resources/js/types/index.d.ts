@@ -41,3 +41,13 @@ export interface User {
   updated_at: string
   [key: string]: unknown // This allows for additional properties...
 }
+
+export type Palette = {
+  name: string
+  id: string
+  emoji: string
+  colors: {
+    name: string
+    color: string
+  }[]
+}
