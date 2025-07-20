@@ -42,6 +42,13 @@ export interface User {
   [key: string]: unknown // This allows for additional properties...
 }
 
+export type BasePalette = {
+  name: string
+  id: string
+  emoji: string
+  colors: { [shade: number]: Color[] }
+}
+
 export type Palette = {
   name: string
   id: string
@@ -51,3 +58,5 @@ export type Palette = {
     color: string
   }[]
 }
+
+export type Format = "hex" | "rgb" | "rgba"

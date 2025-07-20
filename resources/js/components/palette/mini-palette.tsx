@@ -1,5 +1,6 @@
 // import DeleteIcon from "@mui/icons-material/Delete"
 import { Palette } from "@/types"
+import { Link } from "@inertiajs/react"
 import { makeStyles } from "tss-react/mui"
 
 type MiniPaletteProps = Palette & {
@@ -7,7 +8,7 @@ type MiniPaletteProps = Palette & {
 }
 
 function MiniPalette(props: MiniPaletteProps) {
-  const { name, emoji, colors } = props
+  const { name, emoji, colors, id } = props
   // const navigate = useNavigate()
   const { classes } = useStyles()
 
@@ -20,7 +21,7 @@ function MiniPalette(props: MiniPaletteProps) {
   ))
 
   return (
-    <div className={classes.root}>
+    <Link href={`/palette/${id}`} className={classes.root}>
       {/* <DeleteIcon
         onClick={removePalette}
         className={classes.deleteIcon}
@@ -33,7 +34,7 @@ function MiniPalette(props: MiniPaletteProps) {
         {name}
         <span className={classes.emoji}>{emoji}</span>
       </h5>
-    </div>
+    </Link>
   )
 
   // function removePalette(e: MouseEvent<SVGSVGElement>) {

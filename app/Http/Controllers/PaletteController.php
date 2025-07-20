@@ -39,9 +39,11 @@ class PaletteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Palette $palette): void
+    public function show(Palette $palette): Response
     {
-        //
+        $palette = Palette::where('id', $palette->id)->first();
+
+        return Inertia::render('palette', ['palette' => $palette]);
     }
 
     /**
