@@ -31,7 +31,11 @@ export default function ColorBox({
   })
 
   return (
-    <div style={{ background }} className={classNames(customClasses, classes.colorBox)}>
+    <div
+      onClick={changeCopyState}
+      style={{ background }}
+      className={classNames(customClasses, classes.colorBox)}
+    >
       <div style={{ background }} className={classes.copyOverlay} />
       <div className={classes.copyMsg}>
         <h1>{"COPIED"}</h1>
@@ -50,6 +54,12 @@ export default function ColorBox({
       )}
     </div>
   )
+
+  async function changeCopyState() {
+    setShowOverlay(true)
+    setTimeout(() => setShowOverlay(false), 1500)
+    await navigator.clipboard.writeText(background)
+  }
 }
 
 interface StyleProps {
