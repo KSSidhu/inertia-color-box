@@ -17,8 +17,6 @@ function PaletteList({ palettes }: Props) {
   const { classes } = useStyles()
   const { onOpen } = useDisclosure()
 
-  console.log(palettes)
-
   return (
     <div className={classes.root}>
       <div className={classes.container}>
