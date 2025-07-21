@@ -1,12 +1,12 @@
+import DeletePaletteDialog from "@/components/palette/delete-palette-dialog"
 import MiniPalette from "@/components/palette/mini-palette"
 import useDisclosure from "@/hooks/use-disclosure"
 import bg from "@/lib/assets/bg.svg"
 import { Palette } from "@/types"
+import { Button } from "@mui/material"
 import { useState } from "react"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { makeStyles } from "tss-react/mui"
-// import DeletePaletteDialog from "./DeletePaletteDialog"
-// import MiniPalette from "./MiniPalette"
 
 interface Props {
   palettes: Palette[]
@@ -15,30 +15,32 @@ interface Props {
 function PaletteList({ palettes }: Props) {
   const [deletingId, setDeletingId] = useState("")
   const { classes } = useStyles()
-  const { onOpen } = useDisclosure()
+  const { onOpen, isOpen, onClose } = useDisclosure()
 
   return (
     <div className={classes.root}>
       <div className={classes.container}>
-        {/*<nav className={classes.nav}>
+        <nav className={classes.nav}>
           <h1 className={classes.header}>{"React Colors"}</h1>
-           <Button component={Link} to={"/palette/new"} variant={"contained"}>
+          <Button href={"/palette/new"} variant={"contained"}>
             {"Create New Palette"}
           </Button>
-        </nav> */}
-        <TransitionGroup className={classes.palettes}>
-          {palettes.map((palette) => (
-            <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
-              <MiniPalette {...palette} onDelete={setDeleteId} />
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
+        </nav>
+        {palettes.length && (
+          <TransitionGroup className={classes.palettes}>
+            {palettes.map((palette) => (
+              <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
+                <MiniPalette {...palette} onDelete={setDeleteId} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        )}
       </div>
-      {/* <DeletePaletteDialog
+      <DeletePaletteDialog
         isOpen={isOpen}
         onClose={closeDialog}
         deletingId={deletingId}
-      /> */}
+      />
     </div>
   )
 
@@ -47,10 +49,10 @@ function PaletteList({ palettes }: Props) {
     onOpen()
   }
 
-  // function closeDialog() {
-  //   setDeletingId("")
-  //   onClose()
-  // }
+  function closeDialog() {
+    setDeletingId("")
+    onClose()
+  }
 }
 
 const useStyles = makeStyles()((theme) => ({
@@ -72,6 +74,7 @@ const useStyles = makeStyles()((theme) => ({
     alignItems: "flex-start",
     justifyContent: "center",
     overflow: "scroll",
+    padding: theme.spacing(3),
   },
   header: {
     fontSize: "2rem",

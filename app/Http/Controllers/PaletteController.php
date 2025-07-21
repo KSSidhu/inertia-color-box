@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Palette;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -65,8 +66,10 @@ class PaletteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Palette $palette): void
+    public function destroy(Palette $palette): RedirectResponse
     {
-        //
+        $palette->delete();
+
+        return redirect('/');
     }
 }

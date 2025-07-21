@@ -1,6 +1,7 @@
-// import DeleteIcon from "@mui/icons-material/Delete"
 import { Palette } from "@/types"
 import { Link } from "@inertiajs/react"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { MouseEvent } from "react"
 import { makeStyles } from "tss-react/mui"
 
 type MiniPaletteProps = Palette & {
@@ -8,8 +9,7 @@ type MiniPaletteProps = Palette & {
 }
 
 function MiniPalette(props: MiniPaletteProps) {
-  const { name, emoji, colors, id } = props
-  // const navigate = useNavigate()
+  const { name, emoji, colors, id, onDelete } = props
   const { classes } = useStyles()
 
   const minicolorBoxes = colors.map((color) => (
@@ -22,13 +22,13 @@ function MiniPalette(props: MiniPaletteProps) {
 
   return (
     <Link href={`/palette/${id}`} className={classes.root}>
-      {/* <DeleteIcon
+      <DeleteIcon
         onClick={removePalette}
         className={classes.deleteIcon}
         sx={{
           transition: "all 0.3s ease-in-out",
         }}
-      /> */}
+      />
       <div className={classes.colours}>{minicolorBoxes}</div>
       <h5 className={classes.title}>
         {name}
@@ -37,15 +37,12 @@ function MiniPalette(props: MiniPaletteProps) {
     </Link>
   )
 
-  // function removePalette(e: MouseEvent<SVGSVGElement>) {
-  //   e.stopPropagation()
-  //   onDelete(id)
-  //   // deletePalette(id)
-  // }
-
-  // function goToPalette() {
-  //   navigate(`/palette/${id}`)
-  // }
+  function removePalette(e: MouseEvent<SVGSVGElement>) {
+    e.stopPropagation()
+    e.preventDefault()
+    onDelete(id)
+    // deletePalette(id)
+  }
 }
 
 const useStyles = makeStyles()({
@@ -94,12 +91,11 @@ const useStyles = makeStyles()({
   deleteIcon: {
     color: "white",
     backgroundColor: "#eb3d30",
-    width: "20px",
-    height: "20px",
+    width: "30px",
+    height: "30px",
     position: "absolute",
     right: 0,
     top: 0,
-    padding: "10px",
     zIndex: 10,
     opacity: 0,
   },
