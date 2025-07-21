@@ -1,7 +1,8 @@
-// import CloseIcon from "@mui/icons-material/Close"
 import { Format } from "@/types"
 import { Link } from "@inertiajs/react"
-import { MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
+import { IconButton, MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material"
+import Slider from "rc-slider"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 
@@ -21,7 +22,6 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
       <div className={classes.logo}>
         <Link href={"/"}>{"reactcolorpicker"}</Link>
       </div>
-      {/*
       {level && onChange && (
         <div>
           <span>{`level: ${level}`}</span>
@@ -36,7 +36,6 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
           </div>
         </div>
       )}
-            */}
       <div className={classes.selectContainer}>
         <Select onChange={changeFormat} value={format}>
           <MenuItem value={"hex"}>{"Hex - #ffff"}</MenuItem>
@@ -53,11 +52,11 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
           <span id={"message-id"}>{`Format changed to ${format.toUpperCase()}`}</span>
         }
         ContentProps={{ "aria-describedby": "message-id" }}
-        // action={
-        //   <IconButton onClick={closeSnackbar} color={"inherit"} aria-label={"close"}>
-        //     <CloseIcon />
-        //   </IconButton>
-        // }
+        action={
+          <IconButton onClick={closeSnackbar} color={"inherit"} aria-label={"close"}>
+            <CloseIcon />
+          </IconButton>
+        }
       />
     </header>
   )

@@ -1,8 +1,9 @@
-// import "rc-slider/assets/index.css"
 import ColorBox from "@/components/color-box/color-box"
 import Navbar from "@/components/nav/navbar"
+import PaletteFooter from "@/components/palette/palette-footer"
 import { Format, Palette as PaletteData } from "@/types"
 import { generatePalette } from "@/utils/paletteUtils"
+import "rc-slider/assets/index.css"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 // import Navbar from "../navbar/Navbar"
@@ -19,7 +20,6 @@ export default function Palette({ palette: starterPalette }: Props) {
   const { classes } = useStyles()
 
   const palette = generatePalette(starterPalette)
-  console.log(palette)
   if (!palette) return null
 
   const colorBoxes = palette.colors[level].map((color) => (
@@ -37,7 +37,7 @@ export default function Palette({ palette: starterPalette }: Props) {
       </div>
 
       <div className={classes.paletteColors}>{colorBoxes}</div>
-      {/* <PaletteFooter paletteName={palette.paletteName} emoji={palette.emoji} /> */}
+      <PaletteFooter paletteName={palette.name} emoji={palette.emoji} />
     </div>
   )
 
