@@ -24,17 +24,23 @@ class PaletteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): void
+    public function create(): Response
     {
-        //
+        return Inertia::render('palette-form');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $attributes = $request->validate([
+            'name' => ['required', 'unique'],
+        ]);
+
+        Palette::create($attributes);
+
+        return redirect('/');
     }
 
     /**
