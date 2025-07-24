@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 Route::get('/', [PaletteController::class, 'index'])->name('palette');
 Route::get('/palette/new', [PaletteController::class, 'create']);
+Route::post('/palette/new', [PaletteController::class, 'store'])->name('palette');
 Route::get('/palette/{palette}', [PaletteController::class, 'show'])->name('palette');
 Route::delete('/palette/{palette}', [PaletteController::class, 'destroy'])->name('palette');
 

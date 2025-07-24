@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Palette;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+
+use function Illuminate\Log\log;
 
 class PaletteController extends Controller
 {
@@ -35,10 +38,16 @@ class PaletteController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $attributes = $request->validate([
-            'name' => ['required', 'unique'],
+            'name' => 'required|unique:'.Palette::class,
+            'colors' => 'required',
+            // 'emoji' => ['required']
         ]);
 
-        Palette::create($attributes);
+        Palette::create([
+            'name' => $request->name,
+            'colors' => $request->colors,
+            'userId' => Auth::id()
+        ]);
 
         return redirect('/');
     }
