@@ -10,9 +10,13 @@ import { makeStyles } from "tss-react/mui"
 
 interface Props {
   palettes: Palette[]
+  can: {
+    createPalette: boolean
+    deletePalette: boolean
+  }
 }
 
-function PaletteList({ palettes }: Props) {
+function PaletteList({ palettes, can }: Props) {
   const [deletingId, setDeletingId] = useState("")
   const { classes } = useStyles()
   const { onOpen, isOpen, onClose } = useDisclosure()
@@ -22,15 +26,25 @@ function PaletteList({ palettes }: Props) {
       <div className={classes.container}>
         <nav className={classes.nav}>
           <h1 className={classes.header}>{"React Colors"}</h1>
-          <Button href={"/palette/new"} variant={"contained"}>
-            {"Create New Palette"}
-          </Button>
+          {can.createPalette ? (
+            <Button href={"/palette/new"} variant={"contained"}>
+              {"Create New Palette"}
+            </Button>
+          ) : (
+            <Button href={"/login"} variant={"contained"}>
+              {"Login"}
+            </Button>
+          )}
         </nav>
         {palettes.length && (
           <TransitionGroup className={classes.palettes}>
             {palettes.map((palette) => (
               <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
-                <MiniPalette {...palette} onDelete={setDeleteId} />
+                <MiniPalette
+                  {...palette}
+                  onDelete={setDeleteId}
+                  canDelete={can.deletePalette}
+                />
               </CSSTransition>
             ))}
           </TransitionGroup>

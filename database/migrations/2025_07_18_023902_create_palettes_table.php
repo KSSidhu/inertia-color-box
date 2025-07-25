@@ -14,11 +14,11 @@ return new class () extends Migration {
         Schema::create('palettes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(User::class, 'user_id')->nullable(false);
-            $table->jsonb('colors')->nullable(false);
-            $table->text('name')->nullable(false);
+            $table->foreignIdFor(User::class, 'user_id');
+            $table->jsonb('colors');
+            $table->text('name');
             $table->text('emoji')->nullable(true);
-            $table->text('visibility')->default('public')->nullable(false);
+            $table->text('visibility')->default('public');
         });
     }
 

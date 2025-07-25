@@ -15,7 +15,8 @@ class Palette extends Model
         'name',
         'emoji',
         'colors',
-        'visibility'
+        'visibility',
+        'user_id'
     ];
 
     protected $casts = ['colors' => AsCollection::class];

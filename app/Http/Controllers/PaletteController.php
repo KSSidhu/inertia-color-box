@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use function Illuminate\Log\log;
-
 class PaletteController extends Controller
 {
     /**
@@ -19,9 +17,15 @@ class PaletteController extends Controller
     public function index(): Response
     {
 
-        $palettes = Palette::where('visibility', 'public')->limit(10)->get();
+        $palettes = Palette::where('visibility', 'public')->limit(9)->get();
 
-        return Inertia::render('palette-list', ['palettes' => $palettes]);
+        return Inertia::render('palette-list', [
+            'palettes' => $palettes,
+            'can' => [
+                'createPalette' => Auth::id() ? Auth::user()->can('create', Palette::class) : false,
+                'deletePalette' => false
+            ]
+        ]);
     }
 
     /**
@@ -37,7 +41,7 @@ class PaletteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $attributes = $request->validate([
+        $request->validate([
             'name' => 'required|unique:'.Palette::class,
             'colors' => 'required',
             // 'emoji' => ['required']
@@ -46,7 +50,7 @@ class PaletteController extends Controller
         Palette::create([
             'name' => $request->name,
             'colors' => $request->colors,
-            'userId' => Auth::id()
+            'user_id' => Auth::id()
         ]);
 
         return redirect('/');

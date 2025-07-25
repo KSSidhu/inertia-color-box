@@ -6,10 +6,11 @@ import { makeStyles } from "tss-react/mui"
 
 type MiniPaletteProps = Palette & {
   onDelete: (id: string) => void
+  canDelete: boolean
 }
 
 function MiniPalette(props: MiniPaletteProps) {
-  const { name, emoji, colors, id, onDelete } = props
+  const { name, emoji, colors, id, onDelete, canDelete } = props
   const { classes } = useStyles()
 
   const minicolorBoxes = colors.map((color) => (
@@ -22,13 +23,15 @@ function MiniPalette(props: MiniPaletteProps) {
 
   return (
     <Link href={`/palette/${id}`} className={classes.root}>
-      <DeleteIcon
-        onClick={removePalette}
-        className={classes.deleteIcon}
-        sx={{
-          transition: "all 0.3s ease-in-out",
-        }}
-      />
+      {canDelete && (
+        <DeleteIcon
+          onClick={removePalette}
+          className={classes.deleteIcon}
+          sx={{
+            transition: "all 0.3s ease-in-out",
+          }}
+        />
+      )}
       <div className={classes.colours}>{minicolorBoxes}</div>
       <h5 className={classes.title}>
         {name}
@@ -41,7 +44,6 @@ function MiniPalette(props: MiniPaletteProps) {
     e.stopPropagation()
     e.preventDefault()
     onDelete(id)
-    // deletePalette(id)
   }
 }
 
