@@ -53,6 +53,7 @@ export type Palette = {
   name: string
   id: string
   emoji: string
+  user_id?: number
   colors: {
     name: string
     color: string

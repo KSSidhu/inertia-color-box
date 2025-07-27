@@ -23,7 +23,6 @@ class PaletteController extends Controller
             'palettes' => $palettes,
             'can' => [
                 'createPalette' => Auth::id() ? Auth::user()->can('create', Palette::class) : false,
-                'deletePalette' => false
             ]
         ]);
     }

@@ -12,7 +12,6 @@ interface Props {
   palettes: Palette[]
   can: {
     createPalette: boolean
-    deletePalette: boolean
   }
 }
 
@@ -40,11 +39,7 @@ function PaletteList({ palettes, can }: Props) {
           <TransitionGroup className={classes.palettes}>
             {palettes.map((palette) => (
               <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
-                <MiniPalette
-                  {...palette}
-                  onDelete={setDeleteId}
-                  canDelete={can.deletePalette}
-                />
+                <MiniPalette {...palette} onDelete={setDeleteId} />
               </CSSTransition>
             ))}
           </TransitionGroup>

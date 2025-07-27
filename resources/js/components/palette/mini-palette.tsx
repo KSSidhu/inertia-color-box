@@ -1,17 +1,18 @@
-import { Palette } from "@/types"
-import { Link } from "@inertiajs/react"
+import { Palette, SharedData } from "@/types"
+import { Link, usePage } from "@inertiajs/react"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { MouseEvent } from "react"
 import { makeStyles } from "tss-react/mui"
 
 type MiniPaletteProps = Palette & {
   onDelete: (id: string) => void
-  canDelete: boolean
 }
 
 function MiniPalette(props: MiniPaletteProps) {
-  const { name, emoji, colors, id, onDelete, canDelete } = props
+  const { name, emoji, colors, id, onDelete, user_id } = props
   const { classes } = useStyles()
+  const { auth } = usePage<SharedData>().props
+  const canDelete = auth.user.id === user_id
 
   const minicolorBoxes = colors.map((color) => (
     <div

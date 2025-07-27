@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Palette;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PalettePolicy
 {
@@ -29,7 +29,8 @@ class PalettePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // ensure logged in user making request matches logged in user
+        return Auth::id() === $user->id;
     }
 
     /**
