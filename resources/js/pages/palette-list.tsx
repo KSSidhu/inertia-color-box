@@ -26,7 +26,7 @@ function PaletteList({ palettes, can }: Props) {
         <nav className={classes.nav}>
           <h1 className={classes.header}>{"React Colors"}</h1>
           {can.createPalette ? (
-            <Button href={"/palette/new"} variant={"contained"}>
+            <Button href={"/create"} variant={"contained"}>
               {"Create New Palette"}
             </Button>
           ) : (

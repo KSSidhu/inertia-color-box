@@ -19,6 +19,10 @@ class PaletteController extends Controller
 
         $palettes = Palette::where('visibility', 'public')->limit(9)->get();
 
+        if (Auth::id()) {
+            $palettes = Palette::limit(9)->get();
+        }
+
         return Inertia::render('palette-list', [
             'palettes' => $palettes,
             'can' => [
@@ -49,7 +53,8 @@ class PaletteController extends Controller
         Palette::create([
             'name' => $request->name,
             'colors' => $request->colors,
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'visibility' => 'private'
         ]);
 
         return redirect('/');
@@ -58,9 +63,13 @@ class PaletteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Palette $palette): Response
+    public function show(Palette $palette): Response | RedirectResponse
     {
         $palette = Palette::where('id', $palette->id)->first();
+
+        if ($palette->visibility === "private" && $palette->user_id !== Auth::id()) {
+            return redirect('login');
+        }
 
         return Inertia::render('palette', ['palette' => $palette]);
     }

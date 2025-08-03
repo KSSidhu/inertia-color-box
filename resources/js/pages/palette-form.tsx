@@ -175,7 +175,7 @@ export default function PaletteForm() {
     //   return
     // }
 
-    form.post("/palette/new")
+    form.post("/create")
   }
 }
 
