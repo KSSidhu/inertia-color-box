@@ -12,7 +12,7 @@ function MiniPalette(props: MiniPaletteProps) {
   const { name, emoji, colors, id, onDelete, user_id } = props
   const { classes } = useStyles()
   const { auth } = usePage<SharedData>().props
-  const canDelete = auth.user.id === user_id
+  const canDelete = auth.user?.id === user_id
 
   const minicolorBoxes = colors.map((color) => (
     <div
