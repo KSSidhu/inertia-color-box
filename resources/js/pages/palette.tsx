@@ -27,7 +27,7 @@ export default function Palette({ palette: starterPalette }: Props) {
       key={color.id}
       background={color[format]}
       name={color.name}
-      moreUrl={`/palette/${palette.id}/${color.id}`}
+      // moreUrl={`/palette/${palette.id}/${color.id}`}
     />
   ))
   return (

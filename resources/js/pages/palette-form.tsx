@@ -3,6 +3,7 @@ import DraggableColorList from "@/components/draggable/draggable-color-list"
 import PaletteFormNav from "@/components/palette/palette-form.nav"
 import { PaletteFormProvider } from "@/context/palette-form-context"
 import { Palette } from "@/types"
+import defaultColors from "@/utils/defaultColors"
 import { DragEndEvent, DragStartEvent, UniqueIdentifier } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
 import { InertiaFormProps, useForm } from "@inertiajs/react"
@@ -111,16 +112,25 @@ export default function PaletteForm() {
   }
 
   function addRandomColor() {
-    // const allColors = palettes.map((p) => p.colors).flat()
-    // let rand
-    // let randomColor: NewColor
-    // // Keep checking through colors until we get a non-used one
-    // let isDup = true
-    // while (isDup) {
-    //   rand = Math.floor(Math.random() * allColors.length)
-    //   randomColor = allColors[rand]
-    //   isDup = colors.some((color) => color.name === randomColor.name)
-    // }
+    const allColors = defaultColors
+    let rand
+    let randomColor: NewColor = {
+      name: "",
+      color: "",
+    }
+    // Keep checking through colors until we get a non-used one
+    let isDup = true
+    while (isDup) {
+      rand = Math.floor(Math.random() * allColors.length)
+      randomColor = allColors[rand]
+      isDup = form.data.colors.some((color) => color.name === randomColor.name)
+    }
+
+    if (randomColor.color.length)
+      form.setData({
+        ...form.data,
+        colors: [...form.data.colors, randomColor],
+      })
     // setColors((prevColors) => [...prevColors, randomColor])
   }
 
@@ -207,7 +217,7 @@ const useStyles = makeStyles()((theme) => ({
     width: "100%",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
-    // ...theme.mixins.toolbar,
+    ...(theme.mixins.toolbar as React.CSSProperties),
     justifyContent: "flex-end",
   },
   colorPickerContainer: {

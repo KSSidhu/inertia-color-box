@@ -3,6 +3,7 @@ import MiniPalette from "@/components/palette/mini-palette"
 import useDisclosure from "@/hooks/use-disclosure"
 import bg from "@/lib/assets/bg.svg"
 import { Palette } from "@/types"
+import { Link } from "@inertiajs/react"
 import { Button } from "@mui/material"
 import { useState } from "react"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
@@ -26,9 +27,9 @@ function PaletteList({ palettes, can }: Props) {
         <nav className={classes.nav}>
           <h1 className={classes.header}>{"React Colors"}</h1>
           {can.createPalette ? (
-            <Button href={"/create"} variant={"contained"}>
+            <Link href={"/create"} className={classes.create}>
               {"Create New Palette"}
-            </Button>
+            </Link>
           ) : (
             <Button href={"/login"} variant={"contained"}>
               {"Login"}
@@ -113,6 +114,7 @@ const useStyles = makeStyles()((theme) => ({
     width: "100%",
     display: "grid",
     gridTemplateColumns: "repeat(3, 30%)",
+    marginTop: theme.spacing(2),
     gridGap: "2.5rem",
     [theme.breakpoints.down("md")]: {
       gridTemplateColumns: "repeat(2, 50%)",
@@ -120,6 +122,15 @@ const useStyles = makeStyles()((theme) => ({
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 100%)",
       gridGap: "1rem",
+    },
+  },
+  create: {
+    background: theme.palette.primary.dark,
+    padding: theme.spacing(1),
+    borderRadius: "10px",
+
+    "&:hover": {
+      background: theme.palette.primary.main,
     },
   },
 }))

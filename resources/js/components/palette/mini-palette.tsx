@@ -9,7 +9,7 @@ type MiniPaletteProps = Palette & {
 }
 
 function MiniPalette(props: MiniPaletteProps) {
-  const { name, emoji, colors, id, onDelete, user_id } = props
+  const { name, colors, id, onDelete, user_id } = props
   const { classes } = useStyles()
   const { auth } = usePage<SharedData>().props
   const canDelete = auth.user?.id === user_id
@@ -34,10 +34,7 @@ function MiniPalette(props: MiniPaletteProps) {
         />
       )}
       <div className={classes.colours}>{minicolorBoxes}</div>
-      <h5 className={classes.title}>
-        {name}
-        <span className={classes.emoji}>{emoji}</span>
-      </h5>
+      <h5 className={classes.title}>{name}</h5>
     </Link>
   )
 
@@ -77,6 +74,7 @@ const useStyles = makeStyles()({
     color: "black",
     paddingTop: "0.5rem",
     fontSize: "1rem",
+    fontWeight: "bold",
     position: "relative",
   },
   emoji: {

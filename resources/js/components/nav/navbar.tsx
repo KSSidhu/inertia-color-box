@@ -100,6 +100,7 @@ const useStyles = makeStyles()((theme) => ({
   slider: {
     width: "340px",
     margin: "0px",
+    marginLeft: theme.spacing(1),
     display: "inline-block",
     "& .rc-slider-rail": {
       height: "8px",
