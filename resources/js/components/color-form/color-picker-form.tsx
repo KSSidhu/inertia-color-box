@@ -1,6 +1,6 @@
 import { PaletteFormState } from "@/pages/palette-form"
 import { Button, FormLabel } from "@mui/material"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { ChromePicker, ColorResult } from "react-color"
 import { makeStyles } from "tss-react/mui"
 import { Input } from "../ui/input"
@@ -13,7 +13,12 @@ interface ColorPickerFormProps {
 export default function ColorPickerForm({ paletteIsFull, form }: ColorPickerFormProps) {
   const [newColorName, setNewColorName] = useState("")
   const [currentColor, setCurrentColor] = useState("teal")
+  const [errorMessage, setErrorMessage] = useState("")
   const { classes } = useStyles()
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [newColorName])
 
   return (
     <div className={classes.root}>
@@ -22,31 +27,16 @@ export default function ColorPickerForm({ paletteIsFull, form }: ColorPickerForm
         color={currentColor}
         onChangeComplete={handleColorChange}
       />
-      <FormLabel>{"Color Name"}</FormLabel>
+      <FormLabel error={Boolean(errorMessage.length)}>{"Color Name"}</FormLabel>
       <Input
         name={"newColorName"}
         type={"text"}
         value={newColorName}
         onChange={handleNameChange}
       />
-      {/*      <ValidatorForm onSubmit={handleAddColor} instantValidate={false}>
-        <TextValidator
-          name={"newColorName"}
-          value={newColorName}
-          className={classes.colorInput}
-          onChange={handleNameChange}
-          placeholder={"Color Name"}
-          variant={"filled"}
-          margin={"normal"}
-          validators={["required", "isColorNameUnique", "isColorUnique"]}
-          errorMessages={[
-            "Color name is required",
-            "Color name must be unique",
-            "Cannot add an existing color",
-          ]}
-        />
-      </ValidatorForm> */}
-
+      {Boolean(errorMessage.length) && (
+        <span className={classes.error}>{errorMessage}</span>
+      )}
       <Button
         className={classes.addColor}
         variant={"contained"}
@@ -62,7 +52,24 @@ export default function ColorPickerForm({ paletteIsFull, form }: ColorPickerForm
   )
 
   function handleAddColor() {
-    if (!newColorName.trim().length) return
+    if (!newColorName.trim().length) {
+      setErrorMessage("Color name is required")
+      return
+    }
+
+    const uniqueColorName = form.data.colors.every(
+      (color) => color.name.toLowerCase() !== newColorName.toLowerCase()
+    )
+    if (!uniqueColorName) {
+      setErrorMessage("Color name must be unique")
+      return
+    }
+
+    const uniqueColor = form.data.colors.every((color) => color.color !== currentColor)
+    if (!uniqueColor) {
+      setErrorMessage("Cannot add an existing color")
+      return
+    }
 
     form.setData({
       ...form.data,
@@ -87,7 +94,7 @@ export default function ColorPickerForm({ paletteIsFull, form }: ColorPickerForm
   }
 }
 
-const useStyles = makeStyles()({
+const useStyles = makeStyles()((theme) => ({
   root: {
     width: "100%",
   },
@@ -102,4 +109,7 @@ const useStyles = makeStyles()({
     width: "100%",
     height: "70px",
   },
-})
+  error: {
+    color: theme.palette.error.light,
+  },
+}))
