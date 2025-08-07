@@ -1,4 +1,5 @@
 import { stepType, usePaletteForm } from "@/context/palette-form-context"
+import { Visibility } from "@/types"
 import { usePage } from "@inertiajs/react"
 import {
   Button,
@@ -7,6 +8,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
   TextField,
 } from "@mui/material"
 import { FormEvent } from "react"
@@ -45,6 +49,18 @@ export default function PaletteMetaForm({ form, onSubmit }: PaletteMetaFormProps
             helperText={errors.name}
             onChange={handleNameChange}
           />
+
+          <RadioGroup
+            defaultValue={form.data.visibility}
+            onChange={handleVisibilityChange}
+          >
+            <FormControlLabel value={"private"} control={<Radio />} label={"Private"} />
+            <FormControlLabel
+              value={"public"}
+              control={<Radio />}
+              label={"Public"}
+            />{" "}
+          </RadioGroup>
 
           <DialogActions>
             <Button onClick={onClose} color={"primary"}>
@@ -85,5 +101,12 @@ export default function PaletteMetaForm({ form, onSubmit }: PaletteMetaFormProps
       return
     }
     onClose()
+  }
+
+  function handleVisibilityChange(_: React.ChangeEvent<HTMLInputElement>, value: string) {
+    form.setData({
+      ...form.data,
+      visibility: value as Visibility,
+    })
   }
 }

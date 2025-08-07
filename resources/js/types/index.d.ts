@@ -60,4 +60,6 @@ export type Palette = {
   }[]
 }
 
+export type Visibility = "public" | "private"
+
 export type Format = "hex" | "rgb" | "rgba"

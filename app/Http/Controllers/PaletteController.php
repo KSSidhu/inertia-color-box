@@ -47,6 +47,7 @@ class PaletteController extends Controller
         $request->validate([
             'name' => 'required|unique:'.Palette::class,
             'colors' => 'required',
+            'visibility' => 'required'
             // 'emoji' => ['required']
         ]);
 
@@ -54,7 +55,7 @@ class PaletteController extends Controller
             'name' => $request->name,
             'colors' => $request->colors,
             'user_id' => Auth::id(),
-            'visibility' => 'private'
+            'visibility' => $request->visibility
         ]);
 
         return redirect('/');

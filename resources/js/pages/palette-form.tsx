@@ -2,7 +2,7 @@ import ColorPickerForm from "@/components/color-form/color-picker-form"
 import DraggableColorList from "@/components/draggable/draggable-color-list"
 import PaletteFormNav from "@/components/palette/palette-form.nav"
 import { PaletteFormProvider } from "@/context/palette-form-context"
-import { Palette } from "@/types"
+import { Palette, Visibility } from "@/types"
 import defaultColors from "@/utils/defaultColors"
 import { DragEndEvent, DragStartEvent, UniqueIdentifier } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
@@ -22,7 +22,9 @@ export type NewColor = {
 }
 
 const MAX_COLORS = 20
-type PaletteState = Omit<Palette, "id">
+type PaletteState = Omit<Palette, "id"> & {
+  visibility: Visibility
+}
 export type PaletteFormState = InertiaFormProps<PaletteState>
 
 export default function PaletteForm() {
@@ -33,6 +35,7 @@ export default function PaletteForm() {
     name: "",
     colors: [],
     emoji: "",
+    visibility: "private",
   })
 
   const paletteIsFull = form.data.colors.length >= MAX_COLORS
